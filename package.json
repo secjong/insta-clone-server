@@ -1,0 +1,23 @@
+{
+  "name": "insta-clone-server",
+  "version": "1.0.0",
+  "description": "Insta clone server with graphql and node.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/secjong/insta-clone-server.git"
+  },
+  "keywords": [
+    "insta",
+    "clone"
+  ],
+  "author": "CHAE SEJONG <ctw1048@hanmail.net>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/secjong/insta-clone-server/issues"
+  },
+  "homepage": "https://github.com/secjong/insta-clone-server#readme"
+}
