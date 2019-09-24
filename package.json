@@ -4,7 +4,8 @@
   "description": "Insta clone server with graphql and node.js",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon --exec babel-node index.js"
   },
   "repository": {
     "type": "git",
@@ -19,5 +20,18 @@
   "bugs": {
     "url": "https://github.com/secjong/insta-clone-server/issues"
   },
-  "homepage": "https://github.com/secjong/insta-clone-server#readme"
+  "homepage": "https://github.com/secjong/insta-clone-server#readme",
+  "dependencies": {
+    "graphql-yoga": "^1.18.3",
+    "mkdirs": "0.0.2",
+    "moment-timezone": "^0.5.26",
+    "mysql": "^2.15.0",
+    "winston": "^2.4.1",
+    "winston-daily-rotate-file": "^3.0.2"
+  },
+  "devDependencies": {
+    "babel-node": "0.0.1-security",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-stage-3": "^6.24.1"
+  }
 }

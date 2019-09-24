@@ -1,0 +1,31 @@
+type Person {
+    id: String!
+    name: String!
+    age: Int
+    gender: String
+}
+
+type Member {
+    id: String!
+    name: String!
+    age: Int
+    gender: String
+    site: String
+    introduction: String
+    imagePath: String
+    regDate: String!
+}
+
+
+
+type Query {
+    people: [Person]!
+    person(id: String!): Person!
+
+    member: [Member]
+}
+
+type Mutation {
+    add(name: String!, age: Int, gender: String): Person!
+    remove(id: String!): Boolean!
+}
