@@ -1,4 +1,3 @@
-import { people, getById, add, remove, getMemberList } from "./db";
 import memberController from "../controllers/member_controller";
 
 // resolver 는 graphql 스키마에 정의되어 있는 query 나 mutation 만 정의할 수 있다.
@@ -6,25 +5,18 @@ import memberController from "../controllers/member_controller";
 // 실제로 함수를 실행시키는 부분이다.
 const resolvers = {
     Query: {
-        people: () => people,
-        person: (_, {id}) => {
-            // 첫번째 인자는 현재 Object를 가리키고
-            // 두번째 인자는 파라미터를 가리킨다.
-            console.log(_);
-            console.log(id);
-            return getById(id);
+        /* 멤버 리스트 조회 */
+        listMember: (_, params) => {
+            return memberController.listMember();
         },
 
-        member: (_, params) => {
-            return memberController.getMemberList();
-        }
+        
+        
     },
     Mutation: {
-        add: (_, { name, age, gender }) => {
-            return add(name, age, gender);
-        },
-        remove: (_, { id }) => {
-            return remove(id);
+        /* 멤버 등록 */
+        insertMember: (_, member) => {
+            return memberController.insertMember(member);
         }
     }
 };
