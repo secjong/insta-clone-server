@@ -25,3 +25,33 @@ module.exports.insertMember = async (member) => {
     }
     return false;
 };
+
+/**
+ * 멤버 수정 Model 호출
+ * @author 채세종
+ * @method
+ * @param {Member}
+ * @returns {Boolean}
+ */
+module.exports.updateMember = async (member) => {
+    const result = await memberModel.updateMember(member);
+    if(result.affectedRows === 1){
+        return true;
+    }
+    return false;
+};
+
+/**
+ * 멤버 삭제 Model 호출
+ * @author 채세종
+ * @method
+ * @param {String}
+ * @returns {Boolean}
+ */
+module.exports.deleteMember = async (id) => {
+    const result = await memberModel.deleteMember(id);
+    if(result.affectedRows === 1){
+        return true;
+    }
+    return false;
+};

@@ -135,13 +135,38 @@ DBHelper.prototype = {
     }
 };
 
-module.exports = function(callback){
-    var db_helper = new DBHelper(); //DBHelper객체 만들고 
-    db_helper.open(function(){ //접속하여 커넥션풀 임대하고 바로 콜백함수 실행
-        callback(db_helper); //전달된 콜백함수를 실행하면서 인자로 자기자신. DBHelper 객체를 다시 주입하면 콜백 내에서 자기 자신객체를 컨트롤할 수 있음
-    }); 
-};
+// 기존소스
+// module.exports = function(callback){
+//     var db_helper = new DBHelper(); //DBHelper객체 만들고 
+//     db_helper.open(function(){ //접속하여 커넥션풀 임대하고 바로 콜백함수 실행
+//         callback(db_helper); //전달된 콜백함수를 실행하면서 인자로 자기자신. DBHelper 객체를 다시 주입하면 콜백 내에서 자기 자신객체를 컨트롤할 수 있음
+//     }); 
+// };
 
 //require한 객체에 callback을 인자로 전달하면서 실행하면
 //새로운 DB객체가 만들어진 후, 커넥션풀을 생성하면서
 //자기 자신(db_helper)를 인자로 다시 callback를 실행
+
+/**
+ * 새로운 소스 - DB커넥션 Promise 모듈화. DB커넥션풀 임대 및 쿼리까지 날려줌
+ * @author 채세종
+ * @method
+ * @param {Object} - {sql: 쿼리문자열, data: 데이터 배열}
+ * @returns {Promise}
+ */
+module.exports = ({sql, data}) => {
+    return new Promise((resolve, reject) => {
+        var db_helper = new DBHelper(); //DBHelper객체 만들고 
+        db_helper.open(() => { //접속하여 커넥션풀 임대하고 바로 콜백함수 실행
+            db_helper.query(sql, data, (error, result) => {
+                if (error) {
+                    reject(Error(error));
+                } else {
+                    resolve(result);
+                }
+            });
+            db_helper.close();
+            //open => query => close 를 콜백 내에서까지 한번에 진행
+        }); 
+    });
+}

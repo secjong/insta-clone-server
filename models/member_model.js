@@ -1,48 +1,53 @@
-import dbHelper from "../commons/db_helper";
+import query from "../commons/db_helper";
 
 /**
  * 멤버 리스트 DB조회
  * @author 채세종
  * @method
  * @param
- * @returns {Promise}
+ * @returns {Array<Member>}
  */
 module.exports.listMember = () => {
-    return new Promise(function (resolve, reject) {
-        dbHelper((conn) => {
-            const sql = "SELECT * FROM member";
-            conn.query(sql, false, (error, results) => {
-                if (error) {
-                    reject(Error(error));
-                } else {
-                    resolve(results);
-                }
-            });
-            conn.close();
-        });
-    });
-};
+    const sql = "SELECT * FROM member";
+    const data = [];
+    return query({sql, data});
+}
 
 /**
  * 멤버 DB 등록
  * @author 채세종
  * @method
  * @param {Member}
- * @returns {Promise}
+ * @returns {Object}
  */
 module.exports.insertMember = ({id, name, age, gender, site, introduction, imagePath, regDate}) => {
-    return new Promise(function (resolve, reject) {
-        dbHelper((conn) => {
-            const sql = "INSERT INTO member VALUES (?, ?, ?, ?, ?, ?, ?, now())";
-            const data = [id, name, age, gender, site, introduction, imagePath];
-            conn.query(sql, data, (error, results) => {
-                if (error) {
-                    reject(Error(error));
-                } else {
-                    resolve(results);
-                }
-            });
-            conn.close();
-        });
-    });
-};
+    const sql = "INSERT INTO member VALUES (?, ?, ?, ?, ?, ?, ?, now())";
+    const data = [id, name, age, gender, site, introduction, imagePath];
+    return query({sql, data});
+}
+
+/**
+ * 멤버 DB 수정
+ * @author 채세종
+ * @method
+ * @param {Member}
+ * @returns {Object}
+ */
+module.exports.updateMember = ({id, name, age, gender, site, introduction, imagePath}) => {
+    const sql = "UPDATE member SET name = ?, age = ?, gender = ?, site = ?, introduction = ?, imagePath = ? WHERE id = ?";
+    const data = [name, age, gender, site, introduction, imagePath, id];
+    return query({sql, data});
+}
+
+/**
+ * 멤버 DB 삭제
+ * @author 채세종
+ * @method
+ * @param {String}}
+ * @returns {Object}
+ */
+module.exports.deleteMember = (id) => {
+    const sql = "DELETE FROM member WHERE id = ?";
+    const data = [id];
+    return query({sql, data});
+}

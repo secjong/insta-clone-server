@@ -17,4 +17,6 @@ type Query {
 
 type Mutation {
     insertMember(id: String!, name: String!, age: Int, gender: String, site: String, introduction: String, imagePath: String, regDate: String): Boolean!
+    updateMember(id: String!, name: String!, age: Int, gender: String, site: String, introduction: String, imagePath: String): Boolean!
+    deleteMember(id: String!): Boolean!
 }

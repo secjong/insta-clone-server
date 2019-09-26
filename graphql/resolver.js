@@ -17,6 +17,14 @@ const resolvers = {
         /* 멤버 등록 */
         insertMember: (_, member) => {
             return memberController.insertMember(member);
+        },
+        /* 멤버 수정 */
+        updateMember: (_, member) => {
+            return memberController.updateMember(member);
+        },
+        /* 멤버 삭제 */
+        deleteMember: (_, {id}) => {
+            return memberController.deleteMember(id);
         }
     }
 };
