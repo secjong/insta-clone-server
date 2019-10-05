@@ -1,3 +1,24 @@
+type Code {
+    domain: String!
+    code: String!
+    value: String!
+    name: String
+}
+
+type Following {
+    no: Int!
+    fromId: String!
+    toId: String!
+    regId: String!
+}
+
+type Like {
+    no: Int!
+    memberId: String!
+    postNo: Int!
+    regDate: String!
+}
+
 type Member {
     id: String!
     name: String!
@@ -8,6 +29,46 @@ type Member {
     imagePath: String
     regDate: String!
 }
+
+type Mention {
+    no: Int!
+    contents: String!
+    regId: String!
+    regDate: String!
+    editDate: String
+    postNo: Int!
+}
+
+type Photo {
+    no: Int!
+    path: String!
+    postNo: Int!
+}
+
+type Post {
+    no: Int!
+    contents: String!
+    regId: String!
+    regDate: String!
+    editDate: String
+    type: String!
+}
+
+type Remention {
+    no: Int!
+    contents: String!
+    regId: String!
+    regDate: String!
+    editDate: String
+    mentionNo: Int!
+}
+
+type Tag {
+    no: Int!
+    word: String!
+    postNo: Int!
+}
+
 
 
 
