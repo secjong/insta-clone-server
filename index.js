@@ -1,6 +1,5 @@
 import { GraphQLServer } from "graphql-yoga";
 import resolvers from "./graphql/resolver";
-import mkdirs from "mkdirs";
 
 // 사용자정의모듈
 import config from "./commons/_config";
