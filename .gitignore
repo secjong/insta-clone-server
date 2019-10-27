@@ -64,4 +64,4 @@ typings/
 src/assets
 
 # Configuration file
-commons/_config.js
+# commons/_config.js
