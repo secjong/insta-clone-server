@@ -74,6 +74,7 @@ type Tag {
 
 type Query {
     listMember: [Member]
+    login(id: String!): Boolean
 }
 
 type Mutation {

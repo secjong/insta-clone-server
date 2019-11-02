@@ -9,7 +9,13 @@ const resolvers = {
         listMember: (_, params) => {
             return memberController.listMember();
         },
-
+        /* 로그인 */
+        login: (_, params, ttt) => {
+            console.log(_);
+            console.log(params);
+            console.log(ttt);
+            return memberController.login(params);
+        }
         
         
     },
@@ -30,3 +36,12 @@ const resolvers = {
 };
 
 export default resolvers;
+
+// 1. 스칼라 타입(Scalar Types)
+// 스키마에 사용할 수 있는 기본 자료형은 다음과 같습니다.
+
+// 1. Int : 32비트 정수
+// 2. Float : 실수
+// 3. String : UTF-8 문자열
+// 4. Boolean : true / false
+// 5. ID : id 값임을 명시적으로 표현하기 위해 사용. 내부적으로는 String 형태와 동일

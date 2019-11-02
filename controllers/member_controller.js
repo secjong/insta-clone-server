@@ -1,4 +1,10 @@
 import memberModel from "../models/member_model";
+import logHelper from "../commons/log_helper";
+import utils from "../commons/utils";
+import config from "../commons/_config";
+
+// 외장모듈
+import jwt from "jsonwebtoken";
 
 /**
  * 멤버 리스트 조회 Model 호출
@@ -54,4 +60,31 @@ module.exports.deleteMember = async (id) => {
         return true;
     }
     return false;
+};
+
+/**
+ * 로그인
+ * @author 채세종
+ * @method
+ * @param
+ * @returns {Boolean}
+ */
+module.exports.login = async (params) => {
+    const member = await memberModel.selectMember(params);
+    if(member.length === 0){
+        return false;
+    } else {
+        // 멤버가 존재하는 경우 jwt 생성
+        const payload = {
+            id: member.id,
+            name: member.name
+        };
+        const secretKey = config.secure.jwt_encrypt_key;
+        const options = {
+            expiresIn: '5m' // 유효 시간은 5분
+        };
+        const token = jwt.sign(payload, secretKey, options); // 4번째 인자로 콜백함수를 전달하지 않으면 동기처리됨.
+        logHelper.debug(token);
+    }
+    return true;
 };

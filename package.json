@@ -26,6 +26,7 @@
     "express": "^4.17.1",
     "express-graphql": "^0.9.0",
     "graphql-yoga": "^1.18.3",
+    "jsonwebtoken": "^8.5.1",
     "mkdirs": "0.0.2",
     "moment-timezone": "^0.5.26",
     "mysql": "^2.15.0",

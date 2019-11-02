@@ -43,11 +43,25 @@ module.exports.updateMember = ({id, name, age, gender, site, introduction, image
  * 멤버 DB 삭제
  * @author 채세종
  * @method
- * @param {String}}
+ * @param {String}
  * @returns {Object}
  */
 module.exports.deleteMember = (id) => {
     const sql = "DELETE FROM member WHERE id = ?";
+    const data = [id];
+    return query({sql, data});
+}
+
+/**
+ * 멤버 조회
+ * id 기준 조회
+ * @author 채세종
+ * @method
+ * @param {String}
+ * @returns {Object}
+ */
+module.exports.selectMember = ({id}) => {
+    const sql = "SELECT * from member WHERE id = ?";
     const data = [id];
     return query({sql, data});
 }

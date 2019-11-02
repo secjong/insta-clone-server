@@ -162,6 +162,7 @@ module.exports = ({sql, data}) => {
                 if (error) {
                     reject(Error(error));
                 } else {
+                    logHelper.trace(result);
                     resolve(result);
                 }
             });
