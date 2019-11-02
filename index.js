@@ -1,4 +1,4 @@
-import { GraphQLServer } from "graphql-yoga";
+zzzimport { GraphQLServer } from "graphql-yoga";
 import resolvers from "./graphql/resolver";
 
 // 사용자정의모듈
