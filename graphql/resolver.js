@@ -10,10 +10,7 @@ const resolvers = {
             return memberController.listMember();
         },
         /* 로그인 */
-        login: (_, params, ttt) => {
-            console.log(_);
-            console.log(params);
-            console.log(ttt);
+        login: (_, params) => {
             return memberController.login(params);
         }
         
