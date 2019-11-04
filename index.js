@@ -91,7 +91,7 @@ const loggingMiddleware = (req, res, next) => {
 
 
 server.use("/", loggingMiddleware);
-server.use("/", router);
+// server.use("/", router);
 server.start(options, (info) => {
     console.log(`Server started, listening on port ${info.port} for incoming requests.`);
 });
