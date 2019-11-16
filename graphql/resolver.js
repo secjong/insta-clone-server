@@ -13,8 +13,6 @@ const resolvers = {
         login: (_, params) => {
             return memberController.login(params);
         }
-        
-        
     },
     Mutation: {
         /* 멤버 등록 */
@@ -28,7 +26,8 @@ const resolvers = {
         /* 멤버 삭제 */
         deleteMember: (_, {id}) => {
             return memberController.deleteMember(id);
-        }
+        },
+        
     }
 };
 

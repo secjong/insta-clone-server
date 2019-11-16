@@ -67,24 +67,22 @@ module.exports.deleteMember = async (id) => {
  * @author 채세종
  * @method
  * @param
- * @returns {Boolean}
+ * @returns {String}
  */
 module.exports.login = async (params) => {
     const member = await memberModel.selectMember(params);
-    if(member.length === 0){
-        return false;
-    } else {
+    let result = "";
+    if(member.length !== 0){
         // 멤버가 존재하는 경우 jwt 생성
         const payload = {
             id: member.id,
             name: member.name
         };
         const secretKey = config.secure.jwt_encrypt_key;
-        const options = {
-            expiresIn: '5m' // 유효 시간은 5분
-        };
+        const options = config.json_web_token_option;
         const token = jwt.sign(payload, secretKey, options); // 4번째 인자로 콜백함수를 전달하지 않으면 동기처리됨.
-        logHelper.debug(token);
+        logHelper.debug("token : " + token);
+        result = token;
     }
-    return true;
+    return result;
 };

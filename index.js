@@ -18,7 +18,7 @@ server.use(useragent.express());
 
 const options = {
     port: config.server_port,
-    endpoint: '/graphql',
+    endpoint: '/',
     subscriptions: '/subscriptions',
     playground: '/playground',
 }
@@ -90,8 +90,8 @@ const loggingMiddleware = (req, res, next) => {
 
 
 
-server.use("/", loggingMiddleware);
-// server.use("/", router);
+server.use("/", loggingMiddleware); // 로그찍기용
+server.use("/", router); // toekn 검사용
 server.start(options, (info) => {
     console.log(`Server started, listening on port ${info.port} for incoming requests.`);
 });

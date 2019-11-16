@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 // 사용자정의모듈
 import logHelper from "../commons/log_helper";
 import utils from "../commons/utils";
+import config from "../commons/_config";
 
 const router = express.Router();
 
@@ -15,15 +16,21 @@ const router = express.Router();
  */
 router.use("/", (req, res, next) => {
     if(req.headers.referer === req.headers.origin + "/playground" || req.path === "/playground"){
-        // playground 인 경우 그냥 패스
+        // playground 인 경우 token 검사 안함
+        next();
+    } else if (req.body.operationName === "login") {
+        // graphql login 인 경우 token 검사 안함
         next();
     } else {
-        logHelper.debug(req.cookies);
-        if(!utils.isEmpty(req.cookies) && !utils.isEmpty(req.cookies.token)){
+        // 그 외 일반적인 모든 요청에 대해서 token 검사
+        let token = req.headers['x-access-token'] || req.query.token;
+        logHelper.debug(req.headers);
+        logHelper.trace(token);
+        if(!utils.isEmpty(token)){
             // 토큰이 있다면
-            let token = req.cookies.token;
             let decoded = jwt.verify(token, config.secure.jwt_encrypt_key);
             if(decoded){
+                logHelper.debug(decoded);
                 logHelper.debug("권한 있음!");
                 next();
             } else {
