@@ -15,9 +15,13 @@ const router = express.Router();
  * 존재한다면 다음으로 이동한다.
  */
 router.use("/", (req, res, next) => {
+    
     if(req.headers.referer === req.headers.origin + "/playground" || req.path === "/playground"){
         // playground 인 경우 token 검사 안함
         next();
+    } else if (utils.isEmpty(req.body)) {
+        // body가 없는 경우(get 요청인 경우??)
+        return false;
     } else if (req.body.operationName === "login") {
         // graphql login 인 경우 token 검사 안함
         next();
