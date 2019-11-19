@@ -1,4 +1,7 @@
-var logHelper = require('./log_helper');
+const logHelper = require('./log_helper');
+const crypto = require('crypto');
+const config = require('./_config');
+const memberModel = require('../models/member_model');
 
 function utils() {
     //실제로 빈 값인지 검사하는 메서드
@@ -109,8 +112,63 @@ function utils() {
     }
 
 
+    // 비밀번호 해싱
+    function createHashedPassword(id, password){
+        const ranStr = getRanStr(50); // 50자리 랜덤문자 생성
+        crypto.pbkdf2(password, config.secure.salt+ranStr, config.secure.iterations, config.secure.keylen, config.secure.digest, (err, derivedKey) => {
+            if (err) throw err;
+            let hashedPassword = derivedKey.toString('hex');
+            // 비동기로 해싱 완료 후 콜백 안에서 DB에 비밀번호, 솔트 추가
+            const result = memberModel.updateMemberPasswordSalt({id: id, password: hashedPassword, salt: config.secure.salt, ranStr: ranStr});
+            // if(result.affectedRows === 1){
+            //     logHelper.info("updateMemberPasswordSalt success");
+            // } else {
+            //     logHelper.error("updateMemberPasswordSalt fail");
+            // }
+        });
+    };
 
 
+
+    // 난수 생성
+    function getRanStr(size){
+        //rand(1,3)
+        function rand(p_start,p_end){
+            let v_result = null;
+            let v_size = p_end - p_start + 1;
+        
+            if(p_start < 0 || p_end < 0) return v_result;
+            if(v_size < 2) return v_result;
+        
+            v_result = p_start + parseInt(Math.random() * v_size);
+        
+            return v_result;
+        }
+        
+        let result = "";
+        if(!size) size = 10; // 기본사이즈
+        //0~9 : 48~57
+        //a~z : 97~122
+        //A~Z : 65~90
+        for(let i=0;i<size;i++){
+            let kind = rand(1,3);
+            switch(kind){
+                case 1:
+                    result += String.fromCharCode(rand(48,57));
+                    break;
+                case 2:
+                    result += String.fromCharCode(rand(65,90));
+                    break;
+                default:
+                    result += String.fromCharCode(rand(97,122));
+                    break;
+            }
+        }
+        return result;
+    }
+       
+       
+       
 
 
 
@@ -123,7 +181,9 @@ function utils() {
         "isEmpty": isEmpty,
         "checkAndParseJson": checkAndParseJson,
         "checkType": checkType,
-        "getTimeStamp": getTimeStamp
+        "getTimeStamp": getTimeStamp,
+        "createHashedPassword": createHashedPassword,
+        "getRanStr": getRanStr
     };
 
 }

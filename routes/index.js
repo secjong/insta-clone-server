@@ -25,6 +25,9 @@ router.use("/", (req, res, next) => {
     } else if (req.body.operationName === "login") {
         // graphql login 인 경우 token 검사 안함
         next();
+    } else if (req.body.operationName === "insertMember") {
+        // graphql insertMember 인 경우(회원가입) token 검사 안함
+        next();
     } else {
         // 그 외 일반적인 모든 요청에 대해서 token 검사
         let token = req.headers['x-access-token'] || req.query.token;

@@ -21,13 +21,16 @@ type Like {
 
 type Member {
     id: String!
+    password: String!
     name: String!
-    age: Int
+    birth: String
     gender: String
     site: String
     introduction: String
     imagePath: String
     regDate: String!
+    salt: String
+    ranStr: String
 }
 
 type Mention {
@@ -74,11 +77,11 @@ type Tag {
 
 type Query {
     listMember: [Member]
-    login(id: String!): String
+    login(id: String!, password: String!): String
 }
 
 type Mutation {
-    insertMember(id: String!, name: String!, age: Int, gender: String, site: String, introduction: String, imagePath: String, regDate: String): Boolean!
-    updateMember(id: String!, name: String!, age: Int, gender: String, site: String, introduction: String, imagePath: String): Boolean!
-    deleteMember(id: String!): Boolean!
+    insertMember(id: String!, password: String!, name: String!, birth: String, gender: String, site: String, introduction: String, imagePath: String): Boolean!
+    updateMember(id: String!, password: String!, name: String, birth: String, gender: String, site: String, introduction: String, imagePath: String): Boolean!
+    deleteMember(id: String!, password: String!): Boolean!
 }

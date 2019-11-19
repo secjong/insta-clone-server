@@ -27,6 +27,9 @@ module.exports.listMember = async () => {
 module.exports.insertMember = async (member) => {
     const result = await memberModel.insertMember(member);
     if(result.affectedRows === 1){
+        // 등록 성공시 비밀번호 해싱하여 추가
+        // 이 과정은 성능상 비동기로 처리해야 하기 때문에 update 결과는 반환하지 않음
+        utils.createHashedPassword(member.id, member.password);
         return true;
     }
     return false;
@@ -54,8 +57,8 @@ module.exports.updateMember = async (member) => {
  * @param {String}
  * @returns {Boolean}
  */
-module.exports.deleteMember = async (id) => {
-    const result = await memberModel.deleteMember(id);
+module.exports.deleteMember = async (member) => {
+    const result = await memberModel.deleteMember(member);
     if(result.affectedRows === 1){
         return true;
     }

@@ -58,7 +58,10 @@ const config = {
     cookie_encrypt_key: process.env.SECURE_COOKIE_ENC_KEY,
     session_encrypt_key: process.env.SECURE_SESSION_ENC_KEY,
     jwt_encrypt_key: process.env.SECURE_JWT_ENC_KEY,
-    password_encrypt_key: process.env.SECURE_PASSWORD_ENC_KEY
+    salt: process.env.SECURE_SALT, // 비밀번호 솔트
+    iterations: parseInt(process.env.SECURE_ITERATIONS), // 비밀번호 해싱 반복횟수
+    keylen: parseInt(process.env.SECURE_KEYLEN), // 해싱된 결과 길이
+    digest: process.env.SECURE_DIGEST // 해싱알고리즘
   },
   //메일발송정보
   mail_server: {
@@ -75,7 +78,7 @@ const config = {
   //json web token 토큰발행 옵션객체
   json_web_token_option: {
     expiresIn: '2h',
-    issuer: process.env.HOSTNAME, // 설정하지 않아도 존재하는 값임
+    issuer: process.env.HOSTNAME,
     subject: 'userInfo'
   },
 

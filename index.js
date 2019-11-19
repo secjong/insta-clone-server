@@ -88,8 +88,6 @@ const loggingMiddleware = (req, res, next) => {
     next();
 }
 
-
-
 server.use("/", loggingMiddleware); // 로그찍기용
 server.use("/", router); // toekn 검사용
 server.start(options, (info) => {

@@ -20,9 +20,22 @@ module.exports.listMember = () => {
  * @param {Member}
  * @returns {Object}
  */
-module.exports.insertMember = ({id, name, age, gender, site, introduction, imagePath, regDate}) => {
-    const sql = "INSERT INTO member VALUES (?, ?, ?, ?, ?, ?, ?, now())";
-    const data = [id, name, age, gender, site, introduction, imagePath];
+module.exports.insertMember = ({id, name, birth, gender, site, introduction, imagePath, regDate}) => {
+    const sql = "INSERT INTO member VALUES (?, NULL, ?, ?, ?, ?, ?, ?, now(), NULL, NULL)";
+    const data = [id, name, birth, gender, site, introduction, imagePath];
+    return query({sql, data});
+}
+
+/**
+ * 멤버 DB 비밀번호, 솔트 추가(비밀번호 해싱완료 후 작동)
+ * @author 채세종
+ * @method
+ * @param {Member}
+ * @returns {Object}
+ */
+module.exports.updateMemberPasswordSalt = ({id, password, salt, ranStr}) => {
+    const sql = "UPDATE member SET password = ?, salt = ?, ranStr = ? WHERE id = ?";
+    const data = [password, salt, ranStr, id];
     return query({sql, data});
 }
 
@@ -33,9 +46,9 @@ module.exports.insertMember = ({id, name, age, gender, site, introduction, image
  * @param {Member}
  * @returns {Object}
  */
-module.exports.updateMember = ({id, name, age, gender, site, introduction, imagePath}) => {
-    const sql = "UPDATE member SET name = ?, age = ?, gender = ?, site = ?, introduction = ?, imagePath = ? WHERE id = ?";
-    const data = [name, age, gender, site, introduction, imagePath, id];
+module.exports.updateMember = ({id, password, name, birth, gender, site, introduction, imagePath}) => {
+    const sql = "UPDATE member SET name = ?, birth = ?, gender = ?, site = ?, introduction = ?, imagePath = ? WHERE id = ? AND password = ?";
+    const data = [name, birth, gender, site, introduction, imagePath, id, password];
     return query({sql, data});
 }
 
@@ -46,9 +59,9 @@ module.exports.updateMember = ({id, name, age, gender, site, introduction, image
  * @param {String}
  * @returns {Object}
  */
-module.exports.deleteMember = (id) => {
-    const sql = "DELETE FROM member WHERE id = ?";
-    const data = [id];
+module.exports.deleteMember = ({id, password}) => {
+    const sql = "DELETE FROM member WHERE id = ? AND password = ?";
+    const data = [id, password];
     return query({sql, data});
 }
 

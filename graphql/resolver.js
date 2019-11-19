@@ -24,8 +24,8 @@ const resolvers = {
             return memberController.updateMember(member);
         },
         /* 멤버 삭제 */
-        deleteMember: (_, {id}) => {
-            return memberController.deleteMember(id);
+        deleteMember: (_, member) => {
+            return memberController.deleteMember(member);
         },
         
     }
