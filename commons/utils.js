@@ -4,11 +4,17 @@ const config = require('./_config');
 const memberModel = require('../models/member_model');
 
 function utils() {
+    
     //실제로 빈 값인지 검사하는 메서드
     //빈객체 or 빈문자열 or null or undefined 인 경우 빈 값임
     //false or 0 인 경우는 빈값이 아님
     function isEmpty(value) {
-        if ((value == "" || value == null || value == undefined || (value != null && typeof value == "object" && !Object.keys(value).length)) && value != 0) {
+        if (
+            value === "" 
+            || value === null 
+            || value === undefined 
+            || ( value !== null && typeof value === "object" && !Object.keys(value).length)
+        ) {
             return true;
         } else {
             return false;

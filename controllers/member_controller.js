@@ -25,6 +25,11 @@ module.exports.listMember = async () => {
  * @returns {Boolean}
  */
 module.exports.insertMember = async (member) => {
+    const selectedMember = await memberModel.selectMember(member);
+    if(selectedMember.length !== 0){
+        // 아이디 중복인 경우
+        return false;
+    }
     const result = await memberModel.insertMember(member);
     if(result.affectedRows === 1){
         // 등록 성공시 비밀번호 해싱하여 추가
@@ -32,7 +37,7 @@ module.exports.insertMember = async (member) => {
         utils.createHashedPassword(member.id, member.password);
         return true;
     }
-    return false;
+    throw Error("회원가입 실패");
 };
 
 /**

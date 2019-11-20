@@ -12,7 +12,7 @@ const resolvers = {
         /* 로그인 */
         login: (_, params) => {
             return memberController.login(params);
-        }
+        },
     },
     Mutation: {
         /* 멤버 등록 */
