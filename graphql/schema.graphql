@@ -72,6 +72,12 @@ type Tag {
     postNo: Int!
 }
 
+# enum Option {
+#    SHIP
+#    AIRPLANE
+# }
+
+# union SearchResult = Post | Remention | Tag
 
 
 

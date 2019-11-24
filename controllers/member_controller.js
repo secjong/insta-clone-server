@@ -3,6 +3,9 @@ import logHelper from "../commons/log_helper";
 import utils from "../commons/utils";
 import config from "../commons/_config";
 
+// 내장모듈
+import crypto from "crypto";
+
 // 외장모듈
 import jwt from "jsonwebtoken";
 
@@ -78,13 +81,34 @@ module.exports.deleteMember = async (member) => {
  * @returns {String}
  */
 module.exports.login = async (params) => {
-    const member = await memberModel.selectMember(params);
+    const inputPassword = params.password;
+
+    // 1. 아이디를 조건으로 조회한다.
+    // 2. salt, ranStr 을 붙이고 해시를 돌려서 password와 일치하는지 비교한다.
+    // 3. 일치하면 토큰 발행, 불일치하면 로그인 거부처리한다.
+
+    // 1.
+    let member = await memberModel.selectMember(params);
+    if(member.length === 0){
+        // 해당 아이디의 회원이 없는 경우
+        return "";
+    }
+    member = member[0];
+
+    // 2.
+    let derivedKey = crypto.pbkdf2Sync(inputPassword, member.salt+member.ranStr, config.secure.iterations, config.secure.keylen, config.secure.digest);
+    let hashedPassword = derivedKey.toString('hex');
+
+    // 3.
     let result = "";
-    if(member.length !== 0){
-        // 멤버가 존재하는 경우 jwt 생성
+    if(hashedPassword === member.password){
+        // jwt 생성
         const payload = {
             id: member.id,
-            name: member.name
+            name: member.name,
+            site: member.site,
+            introduction: member.introduction,
+            imagePath: member.imagePath
         };
         const secretKey = config.secure.jwt_encrypt_key;
         const options = config.json_web_token_option;
@@ -93,4 +117,32 @@ module.exports.login = async (params) => {
         result = token;
     }
     return result;
+    
+
+    /*
+    crypto.pbkdf2(inputPassword, member.salt+member.ranStr, config.secure.iterations, config.secure.keylen, config.secure.digest, (err, derivedKey) => {
+        if (err) throw err;
+        let hashedPassword = derivedKey.toString('hex');
+
+        // 3.
+        let result = "";
+        if(hashedPassword === member.password){
+            // jwt 생성
+            const payload = {
+                id: member.id,
+                name: member.name,
+                site: member.site,
+                introduction: member.introduction,
+                imagePath: member.imagePath
+            };
+            const secretKey = config.secure.jwt_encrypt_key;
+            const options = config.json_web_token_option;
+            const token = jwt.sign(payload, secretKey, options); // 4번째 인자로 콜백함수를 전달하지 않으면 동기처리됨.
+            logHelper.debug("token : " + token);
+            result = token;
+        }
+        return result;
+    });
+    */
+
 };

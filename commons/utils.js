@@ -1,7 +1,9 @@
 const logHelper = require('./log_helper');
-const crypto = require('crypto');
 const config = require('./_config');
 const memberModel = require('../models/member_model');
+
+// 내장모듈
+const crypto = require('crypto');
 
 function utils() {
     
