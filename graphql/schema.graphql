@@ -79,7 +79,16 @@ type Tag {
 
 # union SearchResult = Post | Remention | Tag
 
-
+input MemberInput {
+    id: String!
+    password: String!
+    name: String!
+    birth: String
+    gender: String
+    site: String
+    introduction: String
+    imagePath: String
+}
 
 type Query {
     listMember: [Member]
