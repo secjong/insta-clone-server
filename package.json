@@ -29,7 +29,7 @@
     "graphql-yoga": "^1.18.3",
     "jsonwebtoken": "^8.5.1",
     "mkdirs": "0.0.2",
-    "moment-timezone": "^0.5.26",
+    "moment-timezone": "^0.5.35",
     "mysql": "^2.15.0",
     "winston": "^2.4.1",
     "winston-daily-rotate-file": "^3.0.2"
